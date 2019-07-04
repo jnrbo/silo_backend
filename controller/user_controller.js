@@ -4,15 +4,12 @@ var UserService = require('../service/user_service');
 const app = express.Router();
 
 app.post('/signup', (req, res) => {
-    let registry = req.body.registry;
+    let username = req.body.username;
     let password = req.body.password;
 
     let user = {
-        registry: registry,
+        username: username,
         password: password,
-        age:      age,
-        patent:   patent,
-        name:     name,
     };
 
     UserService.signup(user,  (err, user) => {
@@ -23,10 +20,10 @@ app.post('/signup', (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-    let registry = req.query.registry;
+    let username = req.query.username;
     let password = req.query.password;
 
-    UserService.login(registry, password, (err, user) => {
+    UserService.login(username, password, (err, user) => {
         if (err) return res.json({ success: false, error: err });
 
         if (user) {

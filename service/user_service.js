@@ -1,6 +1,5 @@
 const crypto = require('crypto');
 const User = require('../model/user');
-const UserType = require('../enum/user_type');
 
 let loggedUsers = [];
 
@@ -13,24 +12,20 @@ class UserService {
     static signup(user, callback) {
         const encryptedPassword = crypto.createHash('sha1').update(user.password).digest('hex');
         new User({
-            registry: user.registry,
-            password: encryptedPassword,
-            patent: user.patent,
-            age: user.age,
-            name: user.name,
-            type: UserType.USER
+            username: user.username,
+            password: encryptedPassword
         }).save(callback);
     }
 
-    static login(registry, password, callback) {
+    static login(username, password, callback) {
         const encryptedPassword = crypto.createHash('sha1').update(password).digest('hex');
 
-        User.where({registry: registry, password: encryptedPassword}).findOne(callback);
+        User.where({username: username, password: encryptedPassword}).findOne(callback);
     }
 
     static logout(user) {
         for (let i = 0; i < loggedUsers.length; i++) {
-            if (loggedUsers[i].registry === user.registry) {
+            if (loggedUsers[i].username === user.username) {
                 loggedUsers.splice(i, 1);
             }
         }
@@ -45,7 +40,7 @@ class UserService {
 
         loggedUsers.push({
             user: user,
-            registry: user.registry,
+            username: user.username,
             token: token
         });
 
