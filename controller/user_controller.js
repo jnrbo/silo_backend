@@ -3,7 +3,6 @@ var UserService = require('../service/user_service');
 
 const app = express.Router();
 
-app.use('/signup', ValidateAdmin);
 app.post('/signup', (req, res) => {
     let registry = req.body.registry;
     let password = req.body.password;
