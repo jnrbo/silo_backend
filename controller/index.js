@@ -7,6 +7,6 @@ app.use(cors());
 
 
 app.use("/user/", require('./user_controller'));
-
+app.use("/silo/", require('./silo_controller'));
 
 module.exports= app;

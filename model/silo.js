@@ -2,8 +2,8 @@ let mongoose = require('mongoose');
 
 let SiloSchema = new mongoose.Schema({
     volume: Number,
-    humity: Number,
-    tempeture: Number,
+    humidity: Number,
+    temperature: Number,
     date: Date,
 });
 
