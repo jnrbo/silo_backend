@@ -13,7 +13,11 @@ class SiloService {
     }
 
     static list(callback) {
-        Silo.find({}, callback);
+        // pega os 30 ultimos
+        Silo.find({}).
+        limit(30).
+        sort({ date: -1 }).
+        exec(callback);
     }
 }
 

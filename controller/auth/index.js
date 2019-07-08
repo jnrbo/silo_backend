@@ -1,23 +1,16 @@
-var express = require('express');
-var app = express();
-var bodyParser = require('body-parser');
+const UserService = require("../../service/user_service");
 
-var mongoose = require("mongoose");
+module.exports = (req, res, next) => {
 
-mongoose.connect('mongodb://localhost:27017/silo', { useNewUrlParser: true });
+    const token = req.header("Auth");
 
+    if (token) {
+        const user = UserService.getUserFromToken(token);
+        if (user) {
+            console.log(`Usuário: ${user.name} acessando...`);
+            return next();
+        }
+    }
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
-
-
-app.use("", require('./controller/index.js'));
-
-
-app.listen(3000, function () {
-    console.log('Example app listening on port 3000!');
-});
-
-
+    return res.status(401).json({ success: false, message: "Não autorizado!" });
+};
